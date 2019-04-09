@@ -10,4 +10,4 @@ link ：https://github.com/dbzhang800/QtXlsxWriter
 
 程序参考斗鱼官方提供的HTTP请求API文档,以及弹幕服务器第三方接入协议，开发完成，省去抓包分析协议，具体也可以去百度找相关文档.
 
-程序 涉及到 HTTP请求,线程，Socket、Josn文档解析、xlsx文档读写操作
+程序 涉及到 HTTP请求,线程，Socket、Json文档解析、xlsx文档读写操作
