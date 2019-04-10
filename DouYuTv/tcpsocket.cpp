@@ -46,7 +46,7 @@ void TcpSocket::readBuff()
 
     if (data.startsWith("type@=chatmsg"))
     {
-        strListMsg.clear();
+        QStringList strListMsg;
         int uidpos = data.indexOf("uid");
         int cidpos = data.indexOf("cid");
         data = data.remove(cidpos,str.length() - cidpos);
@@ -55,11 +55,18 @@ void TcpSocket::readBuff()
         QString uid = strList.at(0).mid(5);
         QString name = strList.at(1).mid(5);
         QString text = strList.at(2).mid(5);
-        strList.clear();
+
         strListMsg.push_back(uid);
         strListMsg.push_back(name);
         strListMsg.push_back(text);
+
+         //对应槽函数执行完毕后在往下执行  //同步调用
         emit this->sendBuffData(strListMsg);
+
+        qDebug()<<"1";
+        strListMsg.clear();
+        strList.clear();
+        data.clear();
      }
 }
 
@@ -67,13 +74,13 @@ void TcpSocket::conRomID(int id)
 {
     QHostInfo info = QHostInfo::fromName("openbarrage.douyutv.com");
 
-    QHostAddress host;
+   // QHostAddress host;
 
-    host=info.addresses().first().toString();
+   // host = info.addresses().first().toString();
 
-    this->connectToHost(host,8601);
+    this->connectToHost(info.addresses().first().toString(),8601);
 
-    if(!this->waitForConnected(50000))
+    if(!this->waitForConnected(20000))
     {
         emit sendEror(this->errorString());
         return;

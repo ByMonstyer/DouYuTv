@@ -10,9 +10,10 @@ ThreadScocket::ThreadScocket(QObject *parent) : QObject(parent)
 
     connect(this,&ThreadScocket::conectRoomId,socket,&TcpSocket::conRomID);
 
-    connect(socket,&TcpSocket::sendBuffData,this,&ThreadScocket::getMessage);
+    //对应槽函数执行完毕后在往下执行  //同步调用
+    connect(socket,&TcpSocket::sendBuffData,this,&ThreadScocket::getMessage,Qt::BlockingQueuedConnection);
 
-    connect(socket,&TcpSocket::sendBuffData,this,&ThreadScocket::saveMessage);
+    connect(socket,&TcpSocket::sendBuffData,this,&ThreadScocket::saveMessage,Qt::BlockingQueuedConnection);
 
     connect(socket,&TcpSocket::sendEror,this,&ThreadScocket::getErrorMsg);
 

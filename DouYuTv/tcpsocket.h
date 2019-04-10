@@ -27,7 +27,7 @@ private:
     void sendRoomID(int id);
 protected:
     QTime tm;
-    QStringList strListMsg;
+  //  QStringList strListMsg;
 };
 
 #endif // TCPSOCKET_H

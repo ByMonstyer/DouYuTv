@@ -22,7 +22,7 @@ Form::Form(int room,QWidget *parent) :
 
     moveForm();
 
-    ui->textBrowser->document()->setMaximumBlockCount(75);
+    ui->textBrowser->document()->setMaximumBlockCount(300);
 
     threadsocket= new ThreadScocket;
 
@@ -35,14 +35,17 @@ Form::Form(int room,QWidget *parent) :
     connect(threadsocket,&ThreadScocket::getMessage,
             [&](const QStringList &str)
     {
-        static int unm = 0;
-        unm++; //清空消息
-        if(unm >= 75)
-        {
-            ui->textBrowser->clear();
-            unm = 0;
-        }
+        //static int unm = 0;
+        //unm++; //清空消息
+       // if(unm >= 75)
+       // {
+         //   ui->textBrowser->clear();
+         //   unm = 0;
+      //  }
         ui->textBrowser->append(str.at(1)+":"+str.at(2));
+        QDateTime time=QDateTime::currentDateTime();
+        QString strtime=time.toString("yyyy-MM-dd hh::mm::ss");
+        qDebug()<<strtime<<str.at(1);
     });
 
     connect(threadsocket,&ThreadScocket::saveMessage,this,&Form::saveData);
@@ -52,7 +55,7 @@ Form::Form(int room,QWidget *parent) :
         ui->textBrowser->append(overMsg);
     });
 
-    connect(&time,&QTimer::timeout,threadsocket,&ThreadScocket::setTime);
+    connect(&time,&QTimer::timeout,threadsocket,&ThreadScocket::setTime,Qt::DirectConnection);
 
     time.start(45000);
 }
